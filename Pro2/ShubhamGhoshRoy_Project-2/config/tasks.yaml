@@ -1,0 +1,71 @@
+routing_task:
+  description: >
+    Chat history so far:
+    {chat_history}
+
+    New question from the user:
+    {user_prompt}
+
+    Decide if this question needs the Retail Data Analyst, the Retail
+    Data Scientist, or both. The analyst handles SQL, KPIs, dashboards,
+    EDA, and reporting. The scientist handles ML, forecasting, churn,
+    and experimentation.
+
+    Reply with just one line in this exact format, nothing else:
+    ROUTE: analyst | scientist | both
+
+  expected_output: >
+    A single line starting with ROUTE: followed by analyst, scientist,
+    or both.
+
+analyst_task:
+  description: >
+    The user asked:
+    {user_prompt}
+
+    Chat history for context:
+    {chat_history}
+
+    Use your tools where useful (profiling the sample data, checking
+    SQL safety, suggesting KPIs, running a DuckDB query through the
+    local MCP server) and write a clear analytics answer. Mention any
+    concrete numbers you got from the tools.
+
+  expected_output: >
+    A short, clear analyst answer with any relevant KPIs or numbers,
+    written for a business stakeholder, not a raw tool dump.
+
+scientist_task:
+  description: >
+    The user asked:
+    {user_prompt}
+
+    Chat history for context:
+    {chat_history}
+
+    Use your tools where useful (problem type detection, feature
+    suggestions, risk detection, evaluation metric recommendations) and
+    write a clear data science answer.
+
+  expected_output: >
+    A short, clear data science answer covering problem type, a couple
+    of feature ideas, one or two risks, and the metric you would track.
+
+editor_task:
+  description: >
+    Combine the notes below into one final answer for the user. Do not
+    just paste them one after another, actually merge overlapping
+    points and remove repetition. Keep it under roughly 300 words.
+
+    Analyst notes:
+    {analyst_notes}
+
+    Scientist notes:
+    {scientist_notes}
+
+    Original question:
+    {user_prompt}
+
+  expected_output: >
+    One final, clean answer for the user combining whichever notes were
+    provided.
